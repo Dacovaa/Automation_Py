@@ -7,6 +7,9 @@ def remover_acentos(texto):
     return unicodedata.normalize('NFKD', texto).encode('ASCII', 'ignore').decode('utf-8')
 
 def extrair_palavras_chave(texto):
+    if not isinstance(texto, str):
+        texto = str(texto) if texto is not None else ""
+        
     texto = texto.lower()
     texto = remover_acentos(texto)
     texto = re.sub(r'[^a-z0-9\s]', '', texto)
@@ -14,10 +17,11 @@ def extrair_palavras_chave(texto):
         "forma", "farmaceutica", "apresentacao", "via", "administracao", "oral", 
         "capsula", "comprimido", "revestido", "injeção", "suspensao", "liquido",
         "injetavel", "ampola", "frascos", "doses", "drageia", "solucao", "substancia", 
-        "farmaceutica", "miligramas", "mg", "ml", "humano", "uso", "especificações", 
+        "farmaceutica", "miligramas", "", "", "humano", "uso", "especificações", 
         "especificacoes", "concentracao", "gerais", "revestido","unidade","intramuscular",
         "intravenosa", "medicamentos", "de", "principioativo","principio","ativo","principioconcentracao1",
-        "controlados", "controlado", "concentrao","concentracao", "cp"
+        "controlados", "controlado", "concentrao","concentracao", "cp", "com", "em", "contendo", "embalado",
+        "mgml", "frasco", "comprimidos", "blister"
     ]
     
     palavras = texto.split()
@@ -38,7 +42,7 @@ def verificar_dosagem(dosagem_destino, dosagem_cotacao):
 planilha_cotacao = pd.read_excel(r'\\Recdist2\rede\PLANILHA COTAÇÕES PREGÕES\TABELA LANÇAMENTOS PREGÕES_10_04_22.xlsx')
 planilha_destino = pd.read_excel(r'\\Recdist2\rede\PLANILHA COTAÇÕES PREGÕES\TABELA DESTINO AUTOMAÇÃO.xlsx')
 
-limite_similaridade = 0.84
+limite_similaridade = 0.80
 
 itens_correspondidos = 0
 
@@ -53,13 +57,14 @@ for i, descricao_destino in enumerate(planilha_destino['DESCRIÇÃO']):
     melhor_match = None
     melhor_correspondencia = None
 
-    dosagem_destino = re.search(r'(\d+)(mg|ml)', descricao_destino.lower()) #extrair dosagem dest
+    dosagem_destino = re.search(r'(\d+)', descricao_destino.lower()) #extrair dosagem dest
     dosagem_destino = dosagem_destino.group(0) if dosagem_destino else None
 
     for j, descricao_cotacao in enumerate(planilha_cotacao['DESCRIÇÃO']):
         descricao_cotacao_tratada = extrair_palavras_chave(descricao_cotacao)
 
-        dosagem_cotacao = re.search(r'(\d+)(mg|ml)', descricao_cotacao.lower()) #extrair dosagem cot
+        descricao_cotacao = str(descricao_cotacao) if descricao_cotacao is not None else ""
+        dosagem_cotacao = re.search(r'(\d+)', descricao_cotacao.lower()) #extrair dosagem cot
         dosagem_cotacao = dosagem_cotacao.group(0) if dosagem_cotacao else None
         
         if not verificar_dosagem(dosagem_destino, dosagem_cotacao):
