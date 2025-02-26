@@ -20,26 +20,21 @@ def extrair_palavras_chave(texto):
         "controlados", "controlado", "concentrao","concentracao", "cp"
     ]
     
-    # Remover termos irrelevantes
     palavras = texto.split()
     palavras_relevantes = [palavra for palavra in palavras if palavra not in termos_irrelevantes]
     
-    # Focar nas palavras principais (nome + dosagem)
     palavras_relevantes = palavras_relevantes[:3]
     
     return " ".join(palavras_relevantes)
 
-# Função para calcular similaridade
 def similaridade(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
-# Função para verificar se as dosagens são diferentes
 def verificar_dosagem(dosagem_destino, dosagem_cotacao):
     if dosagem_destino and dosagem_cotacao:
         return dosagem_destino == dosagem_cotacao
     return True  # Se uma das dosagens for ausente, não considerar a diferença como erro
 
-# Carregar planilhas
 planilha_cotacao = pd.read_excel(r'\\Recdist2\rede\PLANILHA COTAÇÕES PREGÕES\TABELA LANÇAMENTOS PREGÕES_10_04_22.xlsx')
 planilha_destino = pd.read_excel(r'\\Recdist2\rede\PLANILHA COTAÇÕES PREGÕES\TABELA DESTINO AUTOMAÇÃO.xlsx')
 
@@ -52,29 +47,24 @@ colunas_para_converter = ['UNID.', 'FABRICANTE', 'EMBALAGEM', 'ANVISA']
 planilha_destino[colunas_para_converter] = planilha_destino[colunas_para_converter].astype('object')
 
 
-# Comparação das descrições
 for i, descricao_destino in enumerate(planilha_destino['DESCRIÇÃO']):
     descricao_destino_tratada = extrair_palavras_chave(descricao_destino)
     melhor_similaridade = 0
     melhor_match = None
     melhor_correspondencia = None
 
-    # Extrair dosagem do item destino
-    dosagem_destino = re.search(r'(\d+)(mg|ml)', descricao_destino.lower())
+    dosagem_destino = re.search(r'(\d+)(mg|ml)', descricao_destino.lower()) #extrair dosagem dest
     dosagem_destino = dosagem_destino.group(0) if dosagem_destino else None
 
     for j, descricao_cotacao in enumerate(planilha_cotacao['DESCRIÇÃO']):
         descricao_cotacao_tratada = extrair_palavras_chave(descricao_cotacao)
-        
-        # Extrair dosagem da cotação
-        dosagem_cotacao = re.search(r'(\d+)(mg|ml)', descricao_cotacao.lower())
+
+        dosagem_cotacao = re.search(r'(\d+)(mg|ml)', descricao_cotacao.lower()) #extrair dosagem cot
         dosagem_cotacao = dosagem_cotacao.group(0) if dosagem_cotacao else None
         
-        # Verificar se as dosagens são compatíveis
         if not verificar_dosagem(dosagem_destino, dosagem_cotacao):
             continue
         
-        # Calcular a similaridade entre as descrições tratadas
         sim = similaridade(descricao_destino_tratada, descricao_cotacao_tratada)
         
         if sim > melhor_similaridade:
