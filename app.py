@@ -21,7 +21,8 @@ def extrair_palavras_chave(texto):
         "especificacoes", "concentracao", "gerais", "revestido","unidade","intramuscular",
         "intravenosa", "medicamentos", "de", "principioativo","principio","ativo","principioconcentracao1",
         "controlados", "controlado", "concentrao","concentracao", "cp", "com", "em", "contendo", "embalado",
-        "mgml", "frasco", "comprimidos", "blister", "gotas", "gotejador","gotas","oftalmica"
+        "", "frasco", "comprimidos", "blister", "gotas", "gotejador","gotas","oftalmica", "fr",
+        "associado","fco","dose","uiml","medicamento","nutricao","fornecimento","uimlsusp","susp"
     ]
     
     palavras = texto.split()
