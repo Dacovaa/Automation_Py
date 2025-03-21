@@ -17,12 +17,14 @@ def extrair_palavras_chave(texto):
         "forma", "farmaceutica", "apresentacao", "via", "administracao", "oral", 
         "capsula", "comprimido", "revestido", "injeção", "suspensao", "liquido",
         "injetavel", "ampola", "frascos", "doses", "drageia", "solucao", "substancia", 
-        "farmaceutica", "miligramas", "", "", "humano", "uso", "especificações", 
+        "farmaceutica", "miligramas", "comprimidocomprimido", "revestido", "humano", "uso", "especificações", 
         "especificacoes", "concentracao", "gerais", "revestido","unidade","intramuscular",
         "intravenosa", "medicamentos", "de", "principioativo","principio","ativo","principioconcentracao1",
         "controlados", "controlado", "concentrao","concentracao", "cp", "com", "em", "contendo", "embalado",
-        "", "frasco", "comprimidos", "blister", "gotas", "gotejador","gotas","oftalmica", "fr",
-        "associado","fco","dose","uiml","medicamento","nutricao","fornecimento","uimlsusp","susp"
+        "capsulacomprimido", "frasco", "comprimidos", "blister", "gotas", "gotejador","gotas","oftalmica", "fr",
+        "associado","fco","dose","uiml","medicamento","nutricao","fornecimento","uimlsusp","susp",
+        "dosagem","concentraaao","concentraao","associada","apresentaaao","apresentaao","xarope",
+        "contagota","capsulacomprimidocomprimido","cartela","Sublingual",""
     ]
     
     palavras = texto.split()
