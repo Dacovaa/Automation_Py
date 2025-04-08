@@ -24,7 +24,9 @@ def extrair_palavras_chave(texto):
         "capsulacomprimido", "frasco", "comprimidos", "blister", "gotas", "gotejador","gotas","oftalmica", "fr",
         "associado","fco","dose","uiml","medicamento","nutricao","fornecimento","uimlsusp","susp",
         "dosagem","concentraaao","concentraao","associada","apresentaaao","apresentaao","xarope",
-        "contagota","capsulacomprimidocomprimido","cartela","Sublingual",""
+        "contagota","capsulacomprimidocomprimido","cartela","Sublingual","sol","pediatrico","adulto",
+        "po","ORODISPERSiVEL","gerais","catmat","judicial","control","rev","capcpcp","equiv","elem",
+        "eq","fe","bec"
     ]
     
     palavras = texto.split()
