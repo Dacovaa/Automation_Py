@@ -3,6 +3,10 @@ import re
 from difflib import SequenceMatcher
 import unicodedata
 
+planilha_cotacao = pd.read_excel(r'\\Recdist2\rede\PLANILHA COTAÇÕES PREGÕES\TABELA LANÇAMENTOS PREGÕES_10_04_22.xlsx')
+planilha_destino = pd.read_excel(r'\\Recdist2\rede\PLANILHA COTAÇÕES PREGÕES\TABELA DESTINO AUTOMAÇÃO.xlsx')
+
+
 def remover_acentos(texto):
     return unicodedata.normalize('NFKD', texto).encode('ASCII', 'ignore').decode('utf-8')
 
@@ -26,7 +30,10 @@ def extrair_palavras_chave(texto):
         "dosagem","concentraaao","concentraao","associada","apresentaaao","apresentaao","xarope",
         "contagota","capsulacomprimidocomprimido","cartela","Sublingual","sol","pediatrico","adulto",
         "po","ORODISPERSiVEL","gerais","catmat","judicial","control","rev","capcpcp","equiv","elem",
-        "eq","fe","bec"
+        "eq","fe","bec","orodispersivel","dosagemconcentracao","dosagemconcentraao","composicao",
+        "spray","c","doxazosinaconcentraca","lactulona","descricao","produto","embalagem","original",
+        "do","fabricante","apresentado","identificado","lote","peso","quantidade","identificacao","completa",
+        "apresentando"
     ]
     
     palavras = texto.split()
@@ -43,9 +50,6 @@ def verificar_dosagem(dosagem_destino, dosagem_cotacao):
     if dosagem_destino and dosagem_cotacao:
         return dosagem_destino == dosagem_cotacao
     return True  # Se uma das dosagens for ausente, não considerar a diferença como erro
-
-planilha_cotacao = pd.read_excel(r'\\Recdist2\rede\PLANILHA COTAÇÕES PREGÕES\TABELA LANÇAMENTOS PREGÕES_10_04_22.xlsx')
-planilha_destino = pd.read_excel(r'\\Recdist2\rede\PLANILHA COTAÇÕES PREGÕES\TABELA DESTINO AUTOMAÇÃO.xlsx')
 
 limite_similaridade = 0.80
 
